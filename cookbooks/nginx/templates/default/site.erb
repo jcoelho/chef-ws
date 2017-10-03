@@ -1,0 +1,23 @@
+server {
+  listen <%= @listen %>;
+  server_name <%= @host %>;
+  root <%= @root %>;
+
+  index <%= @index %>;
+
+  location / {
+    root <%= @location %>;
+  }
+
+  # Deny access to .htaccess and .htpasswd files
+  location ~ /\.ht {
+    deny all;
+  }
+
+  <% if @access_log -%>
+  access_log <%= node["nginx"]["log_dir"] %>/<%= @host %>.access.log;
+  <% else -%>
+  access_log off;
+  <% end %>
+  error_log  <%= node["nginx"]["log_dir"] %>/<%= @host %>.error.log error;
+}
